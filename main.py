@@ -2,6 +2,9 @@ from typing import Final
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 
+# API github
+import github
+
 TOKEN: Final = "6363168168:AAF4XlvuQQ3IGYp7hj1ap754alS_HATyk80"
 BOT_USERNAME: Final = "@Giteye_bot"
 
@@ -33,22 +36,31 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     message_type: str = update.message.chat.type
     text: str = update.message.text
     
-    print(f" User {update.message.chat.id} in {message_type: {text}}")
+    print(f" User {update.message.chat.id} in {message_type} : {text}")
     
     if message_type == 'group':
+        
         if BOT_USERNAME in text:
-            new_text: str = text.replace(BOT_USERNAME, "").strip()
-            response: str = handle_response(new_text)
+            user_name: str = text.replace(BOT_USERNAME, "").replace(" ", "").strip()
+            user_data = github.get_github_user(user_name)
         else:
             return
     else:
         response: str = handle_response(text)
     
+    response = user_data['login'] + "\n" +  user_data['name'] + "\n" +  user_data['location'] + "\n" + user_data['bio'] + "\nRepository: "
+    list_repos = github.get_repos_list(user_data['repos_url'])
+    
+    # response += ["\n" + str(elt) for elt in list_repos ]
+    
+    for i in range(len(list_repos)):
+        response += "\n -" + list_repos[i]
+    
     print("Bot", response)
     await update.message.reply_text(response) 
 
 async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    print(f"Update {update} caused error {context.error}")
+    print(context.error)
     
     
 
