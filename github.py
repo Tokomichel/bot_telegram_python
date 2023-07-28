@@ -17,7 +17,8 @@ def get_github_user(username):
         # Traitez les données de l'utilisateur ici
         
         list_repos = get_repos_list(user_data['repos_url'])
-       # print(list_repos)
+        print(list_repos)
+        print(user_data)
         return user_data
     else:
         print(f"Erreur de requête. Code de statut : {response.status_code}")

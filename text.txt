@@ -109,3 +109,15 @@
 'created_at': '2021-10-01T20:19:21Z', 
 'updated_at': '2023-06-21T14:03:07Z'
 }
+
+
+
+ User Message
+ (
+channel_chat_created=False, 
+chat=Chat(api_kwargs={'all_members_are_administrators': True}, id=-743053935, title='Mybot', type=<ChatType.GROUP>),
+date=datetime.datetime(2023, 7, 11, 15, 43, 55, tzinfo=<UTC>), 
+delete_chat_photo=False, 
+entities=(MessageEntity(length=11, offset=0, type=<MessageEntityType.MENTION>),), 
+from_user=User(first_name='Toko', id=1416941846, is_bot=False, language_code='fr', last_name='Michel', username='TokoMichel'), 
+ group_chat_created=False, message_id=144, supergroup_chat_created=False, text='@Giteye_bot Tokomichel')

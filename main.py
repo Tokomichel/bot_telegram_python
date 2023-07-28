@@ -20,6 +20,20 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def custom_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("This is a custom command")
 
+async def prince_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+   message_type: str = update.message.chat.type
+   
+   
+   if message_type == "group":
+       print(f"Je reconnais quand meme que c'est un groupe {update.message.from_user.name}")
+       await update.message.reply_text(f"Salut {update.message.from_user.name} comment tu vas?")
+       if update.message.from_user.name == "Prince":
+        print("Okay la ca a prit")   
+        await update.message.reply_text("Salut Prainsseuh Mairvaye comment tu vas?")
+   else:
+       print("Ca n'a pas gui")
+       return
+
 
 # Handle responses
 
@@ -33,13 +47,14 @@ def handle_response(text: str) -> str:
 
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    
     message_type: str = update.message.chat.type
     text: str = update.message.text
     
-    print(f" User {update.message.chat.id} in {message_type} : {text}")
+    print(f" User {update.message.from_user.username} in {message_type} : {text}")
     
     if message_type == 'group':
-        
+        print("On m'a taguer")
         if BOT_USERNAME in text:
             user_name: str = text.replace(BOT_USERNAME, "").replace(" ", "").strip()
             user_data = github.get_github_user(user_name)
@@ -48,7 +63,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         response: str = handle_response(text)
     
-    response = user_data['login'] + "\n" +  user_data['name'] + "\n" +  user_data['location'] + "\n" + user_data['bio'] + "\nRepository: "
+    response = "User name: " + user_data['login'] + "\n" +  "Name: " + user_data['name'] + "\n" +  "Location: " + user_data['location'] + "\n" + "Description: " + user_data['bio'] + "\nRepository: "
     list_repos = github.get_repos_list(user_data['repos_url'])
     
     # response += ["\n" + str(elt) for elt in list_repos ]
@@ -63,7 +78,6 @@ async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
     print(context.error)
     
     
-
 if __name__ == "__main__":
     
     print("Lancement du bot")
@@ -73,6 +87,7 @@ if __name__ == "__main__":
     app.add_handler(CommandHandler("start", start_command))
     app.add_handler(CommandHandler("help", help_command))
     app.add_handler(CommandHandler("custom", custom_command))
+    app.add_handler(CommandHandler("prince", prince_command))
     
     # message
     app.add_handler(MessageHandler(filters.TEXT, handle_message))
