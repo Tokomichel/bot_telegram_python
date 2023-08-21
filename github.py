@@ -26,5 +26,7 @@ def get_github_user(username):
 
 if __name__ == "__main__":
     # Utilisez la fonction pour obtenir les informations d'un utilisateur
-    get_github_user('Tokomichel')
+    lag = get_github_user('Tokomichel')
+    
+     
    

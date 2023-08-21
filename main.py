@@ -58,18 +58,22 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if BOT_USERNAME in text:
             user_name: str = text.replace(BOT_USERNAME, "").replace(" ", "").strip()
             user_data = github.get_github_user(user_name)
+            response = "User name: " + user_data['login'] + "\n" +  "Name: " + user_data['name'] if user_data['name'] != None else "" + "\n" +  "Location: " + user_data['location'] if user_data['location'] != None else ""  + "\n" + "Description: " + user_data['bio']  if user_data['bio'] != None else "" + "\nRepository: "
+            list_repos = github.get_repos_list(user_data['repos_url'])
+    
+            # response += ["\n" + str(elt) for elt in list_repos ]
+    
+            for i in range(len(list_repos)):
+                response += "\n -" + list_repos[i]
         else:
-            return
+            if(update.message.from_user.username == "sanguoledoux"):
+                response = "Tes noyaux"
+            elif(update.message.from_user.username == "KengniJohan"):
+                response = "Enfin je retrouve mon ami robot😂😂"
     else:
         response: str = handle_response(text)
     
-    response = "User name: " + user_data['login'] + "\n" +  "Name: " + user_data['name'] + "\n" +  "Location: " + user_data['location'] + "\n" + "Description: " + user_data['bio'] + "\nRepository: "
-    list_repos = github.get_repos_list(user_data['repos_url'])
-    
-    # response += ["\n" + str(elt) for elt in list_repos ]
-    
-    for i in range(len(list_repos)):
-        response += "\n -" + list_repos[i]
+
     
     print("Bot", response)
     await update.message.reply_text(response) 
