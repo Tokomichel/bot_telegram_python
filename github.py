@@ -1,4 +1,6 @@
 import requests
+from time import sleep
+
 class Repos():
     def __init__(self, ame) -> None:
         self.ame =  ame
@@ -14,22 +16,11 @@ def get_repos_list(repos_url: str):
     print("3")
     
     for i in range(len(repository)):
+        print("pp1")
         rep = Repos(repository[i]['name'])
+        print("pp2")
         l = repository[i]['language']
-        a = requests.get(repository[i]['languages_url']).json()
-        print(f"{a[l]}")
-        
-        if len(l) == 1:
-           print("pp")
-           rep.lag.append(( l, a[l])) 
-           print('dd')
-           
-        else:
-          for j in range(len(l)): 
-           rep.lag.append(( l[j], a[l[j]]))
-           print("de")    
-
-        print(rep.lag)   
+        print("pp3") 
            
         repos.append(repository[i]['name'])
     
@@ -54,5 +45,7 @@ def   get_github_user(username):
 if __name__ == "__main__":
     # Utilisez la fonction pour obtenir les informations d'un utilisateur
     lag = get_github_user('Tokomichel')
+    rep = get_repos_list(lag['repos_url'])
     
     print(lag)
+    print(rep)

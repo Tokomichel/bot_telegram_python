@@ -61,7 +61,6 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             user_data = github.get_github_user(user_name)
             print("1")
             response = f"User name:   {user_data['login']} \n +  Name:   {user_data['name'] }\n +  Location: {user_data['location']} \n Description: {user_data['bio']}  \nRepository: "
-            response = ""
             print("11")
             list_repos = github.get_repos_list(user_data['repos_url'])
             print("2")
