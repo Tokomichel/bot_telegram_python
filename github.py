@@ -24,10 +24,13 @@ def get_repos_list(repos_url: str):
            
         repos.append(repository[i]['name'])
     
-    return repos
+    return repository
 
-def get_lag_list(lag_url: str):
-    lags = requests.get(lag_url).json()
+def get_lang_list(lang_url: str, index: int):
+    # lags = requests.get(repos_url).json()[index]
+    zed = requests.get(lang_url)
+    return zed
+    
 
 def   get_github_user(username):
     url = f'https://api.github.com/users/{username}'
