@@ -85,6 +85,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     if const.IS_REPOS == True:
         j = int(update.message.text)
+        print(const.USERS[const.INDEX])
         lag = github.get_lang_list(const.USERS[const.INDEX].r_data[j]['languages_url'])
         print(lag)
         await update.message.chat.send_message("Veuillez e")
@@ -140,7 +141,6 @@ async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
 if __name__ == "__main__":
     
     print("Lancement du bot")
-    
     loadList()
      
     

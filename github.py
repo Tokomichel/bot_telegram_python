@@ -26,7 +26,7 @@ def get_repos_list(repos_url: str):
     
     return repository
 
-def get_lang_list(lang_url: str, index: int):
+def get_lang_list(lang_url: str):
     # lags = requests.get(repos_url).json()[index]
     zed = requests.get(lang_url)
     return zed
