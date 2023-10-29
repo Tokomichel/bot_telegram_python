@@ -54,12 +54,17 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     print(f" User {update.message.from_user.username} in {message_type} : {text}")
     
     if message_type == 'group':
-        print("On m'a taguer")
+        # 
         if BOT_USERNAME in text:
+            print("On m'a taguer")
             user_name: str = text.replace(BOT_USERNAME, "").replace(" ", "").strip()
             user_data = github.get_github_user(user_name)
-            response = "User name: " + user_data['login'] + "\n" +  "Name: " + user_data['name'] if user_data['name'] != None else "" + "\n" +  "Location: " + user_data['location'] if user_data['location'] != None else ""  + "\n" + "Description: " + user_data['bio']  if user_data['bio'] != None else "" + "\nRepository: "
+            print("1")
+            response = f"User name:   {user_data['login']} \n +  Name:   {user_data['name'] }\n +  Location: {user_data['location']} \n Description: {user_data['bio']}  \nRepository: "
+            response = ""
+            print("11")
             list_repos = github.get_repos_list(user_data['repos_url'])
+            print("2")
     
             # response += ["\n" + str(elt) for elt in list_repos ]
     
