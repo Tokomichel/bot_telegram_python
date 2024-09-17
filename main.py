@@ -1,11 +1,11 @@
 from typing import Final
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
-
+from TOKEN import TOKEN as tk
 # API github
 import github
 
-TOKEN: Final = "6363168168:AAF4XlvuQQ3IGYp7hj1ap754alS_HATyk80"
+TOKEN: Final = tk
 BOT_USERNAME: Final = "@Giteye_bot"
 
 
@@ -53,33 +53,28 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     print(f" User {update.message.from_user.username} in {message_type} : {text}")
     
-    if message_type == 'group':
-        # 
-        if BOT_USERNAME in text:
-            print("On m'a taguer")
-            user_name: str = text.replace(BOT_USERNAME, "").replace(" ", "").strip()
-            user_data = github.get_github_user(user_name)
-            print("1")
-            response = f"User name:   {user_data['login']} \n +  Name:   {user_data['name'] }\n +  Location: {user_data['location']} \n Description: {user_data['bio']}  \nRepository: "
-            response = ""
-            print("11")
-            list_repos = github.get_repos_list(user_data['repos_url'])
-            print("2")
-    
-            # response += ["\n" + str(elt) for elt in list_repos ]
-    
-            for i in range(len(list_repos)):
-                response += "\n -" + list_repos[i]
-        else:
-            if(update.message.from_user.username == "sanguoledoux"):
-                response = "Tes noyaux"
-            elif(update.message.from_user.username == "KengniJohan"):
-                response = "Enfin je retrouve mon ami robot😂😂"
-    else:
-        response: str = handle_response(text)
-    
 
+    if BOT_USERNAME in text:
+        print("On m'a taguer")
+        user_name: str = text.replace(BOT_USERNAME, "").replace(" ", "").strip()
+        user_data = github.get_github_user(user_name)
+        print("1")
+        response = f"User name:   {user_data['login']} \n +  Name:   {user_data['name'] }\n +  Location: {user_data['location']} \n Description: {user_data['bio']}  \nRepository: "
+        response = ""
+        print("11")
+        list_repos = github.get_repos_list(user_data['repos_url'])
+        print("2")
     
+        # response += ["\n" + str(elt) for elt in list_repos ]
+    
+        for i in range(len(list_repos)):
+            response += "\n -" + list_repos[i]
+    else:
+        if(update.message.from_user.username == "sanguoledoux"):
+            response = "Tes noyaux"
+        elif(update.message.from_user.username == "KengniJohan"):
+            response = "Enfin je retrouve mon ami robot😂😂"
+
     print("Bot", response)
     await update.message.reply_text(response) 
 
