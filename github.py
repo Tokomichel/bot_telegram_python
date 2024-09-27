@@ -1,11 +1,5 @@
 import requests
-class Repos():
-    def __init__(self, ame) -> None:
-        self.ame =  ame
-        self.lag = []
-    
-    def __str__(self) -> str:
-        return self.ame + "\n" + self.lag
+from Repository import Repository
     
 def get_repos_list(repos_url: str):
     repos = []
@@ -13,7 +7,7 @@ def get_repos_list(repos_url: str):
     repository = requests.get(repos_url).json()
     print("3")
     for i in range(len(repository)):
-        rep = Repos(repository[i]['name'])
+        rep = Repository(repository[i]['name'])
         l = repository[i]['language']
         a = requests.get(repository[i]['languages_url']).json()
         print(f"{repository[i]['name']} {repository[i]['language']}")
@@ -27,7 +21,7 @@ def get_repos_list(repos_url: str):
     
     return repos
 
-def get_lag_list(lag_url: str):
+def get_lang_list(lag_url: str):
     lags = requests.get(lag_url).json()
 
 def get_github_user(username):
