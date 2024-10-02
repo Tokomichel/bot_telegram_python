@@ -33,30 +33,13 @@ async def prince_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
    else:
        print("Ca n'a pas gui")
        return
+   
+#Bussiness functions
 
-
-# Handle responses
-
-def handle_response(text: str) -> str:
-    lower = text.lower()
-    
-    if 'hello' in lower:
-        return "Hello nice to meet you"
-    else:
-        return "I don't understand what you said"
-
-
-async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    
-    message_type: str = update.message.chat.type
-    text: str = update.message.text
-    
-    print(f" User {update.message.from_user.username} in {message_type} : {text}")
-    
-
-    if BOT_USERNAME in text:
-        print("On m'a taguer")
-        user_name: str = text.replace(BOT_USERNAME, "").replace(" ", "").strip()
+def get_user(user_name: str):
+        
+        response = ""
+        
         user_data = github.get_github_user(user_name)
         print("1")
         response = f"User name:   {user_data['login']} \n +  Name:   {user_data['name'] }\n +  Location: {user_data['location']} \n Description: {user_data['bio']}  \nRepository: "
@@ -69,11 +52,42 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
         for i in range(len(list_repos)):
             response += "\n -" + list_repos[i]
+
+        return response
+
+# Handle responses
+
+def handle_response(text: str) -> str:
+    lower = text.lower()
+
+    if 'hello' in lower:
+        return "Hello nice to meet you"
+    else:
+        return "I don't understand what you said"
+
+
+async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    
+    message_type: str = update.message.chat.type
+    text: str = update.message.text
+    response = ""
+    
+    print(f" User {update.message.from_user.username} in {message_type} : {text}")
+    
+
+    if BOT_USERNAME in text:
+        print("On m'a taguer")
+        response = get_user(text)
+
     else:
         if(update.message.from_user.username == "sanguoledoux"):
             response = "Tes noyaux"
+            
         elif(update.message.from_user.username == "KengniJohan"):
             response = "Enfin je retrouve mon ami robot😂😂"
+            
+        
+        response = get_user(text)
 
     print("Bot", response)
     await update.message.reply_text(response) 
@@ -84,7 +98,7 @@ async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
 if __name__ == "__main__":
     
-    print("Lancement du bot")
+    print("Lancement du bot") # adding some shit words to my code
     
     # commands
     app = Application.builder().token(TOKEN).build()
