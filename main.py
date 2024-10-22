@@ -7,6 +7,34 @@ import github
 
 TOKEN: Final = tk
 BOT_USERNAME: Final = "@Giteye_bot"
+STACKS: Final = """Nos stack Front Web tourne autour de :
+ -React js 
+ -Next js : pour les projets a courtes dures
+ -Vue js 
+
+ Nos  stack back :
+ - Node js  + express
+ - Spring boot
+ - Adonis js
+ - Django + Flask
+
+Nos stack Mobile :
+  - Flutter
+ - React Native
+ - Kotlin : optionnel
+ -Swift : optionnel 
+
+Nos stack DevOps :
+  -Docker
+  - Kubernetes
+
+Nos  stack Management de projet
+  -  Agile + scrum
+
+Nos stack coté cloud:
+  - Aws
+ - Google cloud
+ - Azure cloud"""
 
 
 # commands
@@ -69,28 +97,15 @@ def handle_response(text: str) -> str:
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     message_type: str = update.message.chat.type
-    text: str = update.message.text
-    response = ""
-    
-    print(f" User {update.message.from_user.username} in {message_type} : {text}")
-    
 
-    if BOT_USERNAME in text:
-        print("On m'a taguer")
-        response = get_user(text)
+    if message_type == "group":
+        if BOT_USERNAME in update.message.text:
+            new_text: str = update.message.text.replace(BOT_USERNAME, "").strip()
 
-    else:
-        if(update.message.from_user.username == "sanguoledoux"):
-            response = "Tes noyaux"
-            
-        elif(update.message.from_user.username == "KengniJohan"):
-            response = "Enfin je retrouve mon ami robot😂😂"
-            
-        
-        response = get_user(text)
+            if new_text == "remind":
+                await update.message.reply_text(STACKS)
 
-    print("Bot", response)
-    await update.message.reply_text(response) 
+            await update.message.reply_text(response)
 
 async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
     print(context.error)
