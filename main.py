@@ -43,7 +43,7 @@ async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("Hello! Thanks for chatting me i'm a bot")
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("Sure i'm a bot but my development is on processing so I surely be able to help you next time")
+    await update.message.reply_text("Sure I'm a bot but my development is on processing so I surely be able to help you next time")
 
 async def custom_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("This is a custom command")
@@ -97,6 +97,8 @@ def handle_response(text: str) -> str:
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     message_type: str = update.message.chat.type
+    print(update.message.text)
+    print(f"Type: {message_type}, Message: {update.message.text}")
 
     if message_type == "group":
         if BOT_USERNAME in update.message.text:
@@ -105,7 +107,10 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             if new_text == "remind":
                 await update.message.reply_text(STACKS)
 
-            await update.message.reply_text(response)
+            await update.message.reply_text("Taguer moi et passer le code requis")
+    else:
+        user_name: str = update.message.chat.username
+        await update.message.reply_text(f"Hi {user_name} nice to meet you")  
 
 async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
     print(context.error)
