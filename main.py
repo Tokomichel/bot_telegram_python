@@ -19,7 +19,7 @@ STACKS: Final = """Nos stack Front Web tourne autour de :
  - Django + Flask
 
 Nos stack Mobile :
-  - Flutter
+ - Flutter
  - React Native
  - Kotlin : optionnel
  -Swift : optionnel 
@@ -100,17 +100,24 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     print(update.message.text)
     print(f"Type: {message_type}, Message: {update.message.text}")
 
-    if message_type == "group":
-        if BOT_USERNAME in update.message.text:
-            new_text: str = update.message.text.replace(BOT_USERNAME, "").strip()
 
-            if new_text == "remind":
-                await update.message.reply_text(STACKS)
+    new_text: str = update.message.text.replace(BOT_USERNAME, "").strip()
+        
+    if new_text == "remind":
+        await update.message.reply_text(STACKS)
+    await update.message.reply_text("Taguer moi et passer le code requis")
 
-            await update.message.reply_text("Taguer moi et passer le code requis")
-    else:
-        user_name: str = update.message.chat.username
-        await update.message.reply_text(f"Hi {user_name} nice to meet you")  
+    # if message_type == "group":
+    #     if BOT_USERNAME in update.message.text:
+    #         new_text: str = update.message.text.replace(BOT_USERNAME, "").strip()
+
+    #         if new_text == "remind":
+    #             await update.message.reply_text(STACKS)
+
+    #         await update.message.reply_text("Taguer moi et passer le code requis")
+    # else:
+    #     user_name: str = update.message.chat.username
+    #     await update.message.reply_text(f"Hi {user_name} nice to meet you")  
 
 async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
     print(context.error)
